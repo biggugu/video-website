@@ -122,15 +122,15 @@ function doDownload(){
 <table id="dg" title="视频列表" class="easyui-datagrid" style="width:1700px;height:800px" 
             url="videoList.do"  
             toolbar="#tb" pagination="true"  
-            rownumbers="true" fitColumns="false" singleSelect="true" nowrap="false" >  
+            rownumbers="true" fitColumns="true" singleSelect="true" nowrap="true" >  
         <thead>  
             <tr>  
                 <th field="id" width="300" hidden="true">编号</th>  
                 <th field="videoname" width="300">视频名称</th>  
-                <th field="author" width="200">上传者</th>  
+                <th field="author" width="250">上传者</th>  
                 <th field="intro" width="550">简介</th> 
-                <th field="institution" width="250">学院</th> 
-                <th field="uploadtime" width="200">上传时间</th> 
+                <th field="institution" width="250">学院</th>
+                <th field="uploadtime" width="250">上传时间</th>  
             </tr>  
         </thead>  
     </table> 

@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <p>请选择要上传的视频（必须为mp4格式,文件小于3G）</p>
 			<form action="/upload" method="post" enctype="multipart/form-data">
 			<br><input type="file" name="file"/>
-			<td>所属学院:</td>
+			<br>所属学院:
 			<select id="cc" class="easyui-combobox" name="institution" style="width:200px;">
 				<option value="计算机科学与技术学院">计算机科学与技术学院</option>
 				<option value="物理与光电学院">物理与光电学院</option>
@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<option value="纺织学院">纺织学院</option>
 				<option value="东吴商学院">东吴商学院</option>
 				</select>
-			<br><textarea name="intro" placeholder="简介：" style="width:800px;height:450px;" maxlength="255"></textarea>
+			<br><textarea name="intro" placeholder="简介：" style="width:800px;height:450px;" maxlength="1500"></textarea>
 			<br><input type="submit" value="提交上传">
 			</form>
         </div>

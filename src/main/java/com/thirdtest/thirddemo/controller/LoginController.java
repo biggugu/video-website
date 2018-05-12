@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -118,9 +119,9 @@ public class LoginController {
         return "student";
     }
     
-    @RequestMapping("/jwplayer")  
-    public String jwplayerpage(HttpServletResponse response){  
-        return "jwplayertest";
+    @RequestMapping("/detail*") 
+    public String detailPage(@RequestParam(value="videoid", required=false) Long videoid,HttpServletResponse response){  
+        return "detail";
     }
     
 }

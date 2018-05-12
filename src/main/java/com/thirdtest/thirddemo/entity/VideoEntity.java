@@ -19,6 +19,9 @@ public class VideoEntity implements Serializable{
 	@Column(name="videoname")
 	private String videoname;
 	
+	@Column(name="videosize")
+	private Long videosize;
+	
 	@Column(name="author")
 	private String author;
 	
@@ -31,6 +34,15 @@ public class VideoEntity implements Serializable{
 	
 	@Column(name="uploadtime")
 	private String uploadtime;
+	
+	@Column(name="count")
+	private int count;
+	
+	@Column(name="goals")
+	private int goals;
+	
+	@Column(name="videopicture")
+	private String videopicture;
 	
 	public Long getId() {
 		return id;
@@ -46,6 +58,14 @@ public class VideoEntity implements Serializable{
 	
 	public void setVideoname(String str) {
 		videoname=str;
+	}
+	
+	public Long getVideosize() {
+		return videosize;
+	}
+	
+	public void setVideosize(Long size) {
+		videosize=size;
 	}
 	
 	public String getAuthor() {
@@ -78,5 +98,29 @@ public class VideoEntity implements Serializable{
 	
 	public void setUploadtime(String str) {
 		uploadtime=str;
+	}
+	
+	public int getCount() {
+		return count;
+	}
+	
+	public void setCount(int num) {
+		count=num;
+	}
+	
+	public int getGoals() {
+		return goals;
+	}
+	
+	public void setGoals(int num) {
+		goals=num;
+	}
+	
+	public String getVideopicture() {
+		return videopicture;
+	}
+	
+	public void setVideopicture(String str) {
+		videopicture=str;
 	}
 }

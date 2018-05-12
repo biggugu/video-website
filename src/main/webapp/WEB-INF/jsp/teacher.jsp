@@ -13,9 +13,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<%=basePath %>js/jquery-easyui/jquery.min.js"></script>
     <script type="text/javascript" src="<%=basePath %>js/jquery-easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="<%=basePath %>js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="<%=basePath %>js/jquery-easyui/datagrid-detailview.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <script>
+
+$(function(){
+	$('#dg').datagrid({
+		title:"视频列表",
+		width:'1500px',
+		height:'800px',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		singleSelect:true,
+		nowrap:true,
+		toolbar:'tb',
+		url:"videoList.do",
+		columns:[[
+			{field:'id',title:'Item ID',width:100,hidden:true},
+            {field:'videoname',title:'视频名称',width:170},
+            {field:'author',title:'上传者',width:70},
+            {field:'intro',title:'简介',width:300},
+            {field:'institution',title:'学院',width:150},
+            {field:'uploadtime',title:'上传时间',width:75}
+			]],
+		view: detailview,
+		detailFormatter:function(index,row){
+			return '<table><tr>' +
+            '<td rowspan=2 style="border:0"><img src="file/'+row.videopicture+'.jpg" style="height:150px;"></td>' +
+            '<td style="border:0">' +
+            '<p>简介: ' + row.intro + '</p>' +
+            '<p>视频大小: ' + (row.videosize/1000000).toFixed(2) + 'Mb</p>' +
+            '<p>综合评分: ' + (row.goals).toFixed(2) + '</p>' +
+            '</td>' +
+            '</tr></table>';
+		},
+		
+		onDblClickRow:function(index,row){    //双击进行操作的方法  
+			var videoname=encodeURI(encodeURI(row.videoname));
+			var obj = window.open("${pageContext.request.contextPath }/detail?videoid="+row.id+"&videoname="+videoname+"&videopicture="+row.videopicture);
+			obj.onload=function(){
+				obj.document.title = "VIDEO DETAIL";
+			}  
+   		}  
+		
+	});
+});
+
 function docut(){
 	var row = $('#dg').datagrid('getSelected');
 	$.messager.confirm("提示", "您确定要删除这个视频吗吗？", function (res) {//提示是否删除
@@ -57,18 +102,87 @@ function doSearch(){
 }
 
 function doShowAll(){
-	$.ajax({
-	    url: 'show.do',         
-	    data: "page="+"1"+"&rows="+"10",
-	    type: "POST",   
-		success:function(msg){
-			$('#dg').datagrid("loadData",msg);
-		 }
+	$('#dg').datagrid({
+		title:"视频列表",
+		width:'1500px',
+		height:'800px',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		singleSelect:true,
+		nowrap:true,
+		toolbar:'tb',
+		url:"show.do",
+		columns:[[
+			{field:'id',title:'Item ID',width:100,hidden:true},
+            {field:'videoname',title:'视频名称',width:170},
+            {field:'author',title:'上传者',width:70},
+            {field:'intro',title:'简介',width:300},
+            {field:'institution',title:'学院',width:150},
+            {field:'uploadtime',title:'上传时间',width:75}
+			]],
+		view: detailview,
+		detailFormatter:function(index,row){
+			return '<table><tr>' +
+            '<td rowspan=2 style="border:0"><img src="file/'+row.videopicture+'.jpg" style="height:150px;"></td>' +
+            '<td style="border:0">' +
+            '<p>简介: ' + row.intro + '</p>' +
+            '<p>视频大小: ' + (row.videosize/1000000).toFixed(2) + 'Mb</p>' +
+            '<p>综合评分: ' + (row.goals).toFixed(2) + '</p>' +
+            '</td>' +
+            '</tr></table>';
+		},
+		
+		onDblClickRow:function(index,row){    //双击进行操作的方法  
+			var obj = window.open("${pageContext.request.contextPath }/detail?videoid="+row.id+"&videoname="+row.videoname+"&videopicture="+row.videopicture);
+			obj.onload=function(){
+				obj.document.title = "VIDEO DETAIL";
+			}  
+   		}  
+		
 	});
 }
 
 function doShowMine(){
-	$('#dg').datagrid("reload");
+	$('#dg').datagrid({
+		title:"视频列表",
+		width:'1500px',
+		height:'800px',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		singleSelect:true,
+		nowrap:true,
+		toolbar:'tb',
+		url:"videoList.do",
+		columns:[[
+			{field:'id',title:'Item ID',width:100,hidden:true},
+            {field:'videoname',title:'视频名称',width:170},
+            {field:'author',title:'上传者',width:70},
+            {field:'intro',title:'简介',width:300},
+            {field:'institution',title:'学院',width:150},
+            {field:'uploadtime',title:'上传时间',width:75}
+			]],
+		view: detailview,
+		detailFormatter:function(index,row){
+			return '<table><tr>' +
+            '<td rowspan=2 style="border:0"><img src="file/'+row.videopicture+'.jpg" style="height:150px;"></td>' +
+            '<td style="border:0">' +
+            '<p>简介: ' + row.intro + '</p>' +
+            '<p>视频大小: ' + (row.videosize/1000000).toFixed(2) + 'Mb</p>' +
+            '<p>综合评分: ' + (row.goals).toFixed(2) + '</p>' +
+            '</td>' +
+            '</tr></table>';
+		},
+		
+		onDblClickRow:function(index,row){    //双击进行操作的方法  
+			var obj = window.open("${pageContext.request.contextPath }/detail?videoid="+row.id+"&videoname="+row.videoname+"&videopicture="+row.videopicture);
+			obj.onload=function(){
+				obj.document.title = "VIDEO DETAIL";
+			}  
+   		}  
+		
+	});
 }
 
 function doPlay(){
@@ -83,6 +197,7 @@ function doDownload(){
 	var row = $('#dg').datagrid('getSelected');
 	window.location.href="/download.do?fileName="+row.videoname;
 }
+
 
 </script>
 
@@ -104,6 +219,9 @@ function doDownload(){
         <div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;text-align:center;">
             版权所有区域
         </div>
+        <div data-options="region:'east',split:true,title:'最近播放'" style="width:200px;padding:10px;">
+            
+        </div>
         <div data-options="region:'center',title:'内容区域'" style="padding:10px;">
 <div id="tb" style="padding:5px;height:auto">    
 	<div>
@@ -117,21 +235,7 @@ function doDownload(){
         <a class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="docut()">删除</a>
     </div>
 </div>
-<table id="dg" title="视频列表" class="easyui-datagrid" style="width:1700px;height:800px" 
-            url="videoList.do"  
-            toolbar="#tb" pagination="true"  
-            rownumbers="true" fitColumns="false" singleSelect="true" nowrap="false" >  
-        <thead>  
-            <tr>  
-                <th field="id" width="300" hidden="true">编号</th>  
-                <th field="videoname" width="300">视频名称</th>  
-                <th field="author" width="200">上传者</th>  
-                <th field="intro" width="550">简介</th> 
-                <th field="institution" width="250">学院</th>
-                <th field="uploadtime" width="200">上传时间</th>  
-            </tr>  
-        </thead>  
-    </table> 
-    </div>
+<table id="dg" ></table> 
+</div>
 </body>
 </html>

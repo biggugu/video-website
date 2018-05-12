@@ -1,6 +1,8 @@
 package com.thirdtest.thirddemo.controller;
 
 import java.io.File;
+
+import java.util.UUID;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,32 +41,52 @@ public class UploadController {
 	@RequestMapping(value="/upload",method=RequestMethod.POST)
 	public String upload(HttpServletRequest request,MultipartFile file) {
 		try {
-			 Date date = new Date();
+			Date date = new Date();
+			String uuid = UUID.randomUUID().toString().replaceAll("-", ""); //获取uuid
 			String intro=request.getParameter("intro");
 			String institution=request.getParameter("institution");
-			//System.out.println(intro);
 			UEntity uEntity = (UEntity) SecurityUtils.getSubject().getPrincipal();
 			String author=uEntity.getTruename();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String uploadtime=df.format(date);
 			String filename=file.getOriginalFilename();
+			String uploadDir="//home//zydagu//Videos//";
+			File serverFile=new File(uploadDir+filename);
+			long filesize=file.getSize();
+			
+			//写入数据库
 			VideoEntity videoEntity=new VideoEntity();
 			videoEntity.setId(null);
 			videoEntity.setAuthor(author);
+			videoEntity.setVideosize(filesize);
 			videoEntity.setIntro(intro);
 			videoEntity.setInstitution(institution);
 			videoEntity.setVideoname(filename);
 			videoEntity.setUploadtime(uploadtime);
+			videoEntity.setCount(0);
+			videoEntity.setGoals(0);
+			videoEntity.setVideopicture(uuid);
 			videoService.saveVideo(videoEntity);
-			String uploadDir="//home//zydagu//Videos//";
-			File serverFile=new File(uploadDir+filename);
 			file.transferTo(serverFile);
+			try {
+				
+				Runtime runtime = Runtime.getRuntime(); 
+				Process proce = null; 
+				//截图命令
+				String cmd="ffmpeg -y -i "+serverFile+" -ss 5 -s 600x400 -f image2 -vframes 1  /home/zydagu/Pictures/"+uuid+".jpg";
+				proce = runtime.exec(cmd);
+				proce.waitFor();
+				System.out.println(uuid);
+			}catch(Exception e){
+				e.printStackTrace();
+				return "截图失败";
+			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return "上传失败";
 		}
 		
-		return "redirect:index";
+		return "redirect:teacher";
 	}
 }
